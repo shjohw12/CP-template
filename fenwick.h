@@ -10,29 +10,6 @@ struct Bit {
         // return max(L, R);
     }
 
-    Bit(int st, int en, T I) {
-        node_size = en - st + 1;
-        bias = 1 - st;
-        this->I = I;
-        node.resize(node_size + 1, I);
-    }
-
-    Bit(int st, int en, auto origin, T I) {
-        node_size = en - st + 1;
-        bias = 1 - st;
-        this->I = I;
-        node.resize(node_size + 1);
-        for (int i = 1, j = st; j <= en; i++, j++) {
-            node[i] = origin[j];
-        }
-        for (int i = 1; i <= node_size; i++) {
-            int j = i + (i & -i);
-            if (j <= node_size) {
-                node[j] = merge(node[j], node[i]);
-            }
-        }
-    }
-
     void init(int st, int en, T I) {
         node_size = en - st + 1;
         bias = 1 - st;

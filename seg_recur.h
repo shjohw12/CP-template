@@ -10,19 +10,6 @@ struct Seg {
         // return max(L, R);
     }
 
-    Seg(int st, int en, T I) {
-        this->st = st, this->en = en;
-        this->I = I;
-        node.resize((en - st + 1) * 4, I);
-    }
-
-    Seg(int st, int en, auto origin, T I) {
-        this->st = st, this->en = en;
-        this->I = I;
-        node.resize((en - st + 1) * 4);
-        init(1, st, en, origin);
-    }
-
     void init(int st, int en, T I) {
         this->st = st, this->en = en;
         this->I = I;

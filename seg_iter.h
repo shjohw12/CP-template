@@ -10,26 +10,6 @@ struct Seg {
         // return max(L, R);
     }
 
-    Seg(int st, int en, T I) {
-        node_size = en - st + 1;
-        bias = -st;
-        this->I = I;
-        node.resize(node_size * 2, I);
-    }
-
-    Seg(int st, int en, auto origin, T I) {
-        node_size = en - st + 1;
-        bias = -st;
-        this->I = I;
-        node.resize(node_size * 2);
-        for (int i = node_size, j = st; j <= en; i++, j++) {
-            node[i] = origin[j];
-        }
-        for (int i = node_size - 1; i; i--) {
-            node[i] = merge(node[i << 1], node[i << 1 | 1]);
-        }
-    }
-
     void init(int st, int en, T I) {
         node_size = en - st + 1;
         bias = -st;

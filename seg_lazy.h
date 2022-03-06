@@ -23,21 +23,6 @@ struct Seg {
         // node[nidx] = val;
     }
 
-    Seg(int st, int en, T I, T lazyI) {
-        this->st = st, this->en = en;
-        this->I = I, this->lazyI = lazyI;
-        node.resize((en - st + 1) * 4, I);
-        lazy.resize((en - st + 1) * 4, lazyI);
-    }
-
-    Seg(int st, int en, auto origin, T I, T lazyI) {
-        this->st = st, this->en = en;
-        this->I = I, this->lazyI = lazyI;
-        node.resize((en - st + 1) * 4);
-        init(1, st, en, origin);
-        lazy.resize((en - st + 1) * 4, lazyI);
-    }
-
     void init(int st, int en, T I, T lazyI) {
         this->st = st, this->en = en;
         this->I = I, this->lazyI = lazyI;
