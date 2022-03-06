@@ -32,7 +32,7 @@ struct Seg {
         fill(all(node), lazyI);
     }
 
-    void init(int st, int en, auto origin) {
+    void init(int st, int en, auto origin, T I, T lazyI) {
         this->st = st, this->en = en;
         this->I = I, this->lazyI = lazyI;
         node.resize((en - st + 1) * 4);
