@@ -29,26 +29,26 @@ struct Seg {
         node.resize((en - st + 1) * 4);
         fill(all(node), I);
         lazy.resize((en - st + 1) * 4);
-        fill(all(node), lazyI);
+        fill(all(lazy), lazyI);
     }
 
     void init(int st, int en, auto origin, T I, T lazyI) {
         this->st = st, this->en = en;
         this->I = I, this->lazyI = lazyI;
         node.resize((en - st + 1) * 4);
-        init(1, st, en, origin);
+        _init(1, st, en, origin);
         lazy.resize((en - st + 1) * 4);
-        fill(all(node), lazyI);
+        fill(all(lazy), lazyI);
     }
 
-    void init(int nidx, int st, int en, auto origin) {
+    void _init(int nidx, int st, int en, auto origin) {
         if (st == en) {
             node[nidx] = origin[st];
             return;
         }
         int mid = (st + en) >> 1;
-        init(nidx << 1, st, mid, origin);
-        init(nidx << 1 | 1, mid + 1, en, origin);
+        _init(nidx << 1, st, mid, origin);
+        _init(nidx << 1 | 1, mid + 1, en, origin);
         node[nidx] = merge(node[nidx << 1], node[nidx << 1 | 1]);
     }
 
