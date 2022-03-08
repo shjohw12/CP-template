@@ -6,8 +6,8 @@ struct Seg {
 
     T merge(T L, T R) {
         return L + R;
-        return min(L, R);
-        return max(L, R);
+        // return min(L, R);
+        // return max(L, R);
     }
 
     void to_lazy(int nidx, int st, int en, T val) {
