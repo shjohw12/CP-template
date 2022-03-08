@@ -6,7 +6,7 @@ struct Sa {
     string s;
     vector<int> group, tmp, sa, lcp, cnt;
 
-    Sa(string s) : n(sz(s)), s(s), group(n), tmp(n), sa(n), lcp(n), cnt(max(n, int(128))) {
+    Sa(string s) : n(sz(s)), s(s), group(n + 1), tmp(n + 1), sa(n + 1), lcp(n + 1), cnt(max(n, int(128)) + 1) {
         for (int i = 0; i < n; i++) {
             // sa는 0 ~ n-1 의 값 가짐
             sa[i] = i;
