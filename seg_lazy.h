@@ -1,8 +1,10 @@
-template<typename T>
+template<typename T, typename U>
 struct Seg {
     int st, en, le, ri, k;
-    T I, lazyI, val;
-    vector<T> node, lazy;
+    T I;
+    U lazyI, val;
+    vector<T> node;
+    vector<U> lazy;
 
     T merge(T L, T R) {
         return L + R;
@@ -10,31 +12,33 @@ struct Seg {
         // return max(L, R);
     }
 
-    void to_lazy(int nidx, int st, int en, T val) {
+    void to_lazy(int nidx, int st, int en, U val) {
         lazy[nidx << 1] += val;
         lazy[nidx << 1 | 1] += val;
         // lazy[nidx << 1] = val;
         // lazy[nidx << 1 | 1] = val;
     }
 
-    void to_node(int nidx, int st, int en, T val) {
+    void to_node(int nidx, int st, int en, U val) {
         node[nidx] += (en - st + 1) * val;
         // node[nidx] += val;
         // node[nidx] = val;
     }
 
-    void init(int st, int en, T I, T lazyI) {
+    void init(int st, int en, T I, U lazyI) {
         this->st = st, this->en = en;
-        this->I = I, this->lazyI = lazyI;
+        this->I = I;
+        this->lazyI = lazyI;
         node.resize((en - st + 1) * 4);
         fill(all(node), I);
         lazy.resize((en - st + 1) * 4);
         fill(all(lazy), lazyI);
     }
 
-    void init(int st, int en, auto origin, T I, T lazyI) {
+    void init(int st, int en, auto origin, T I, U lazyI) {
         this->st = st, this->en = en;
-        this->I = I, this->lazyI = lazyI;
+        this->I = I;
+        this->lazyI = lazyI;
         node.resize((en - st + 1) * 4);
         _init(1, st, en, origin);
         lazy.resize((en - st + 1) * 4);
@@ -80,8 +84,9 @@ struct Seg {
         return merge(solve(nidx << 1, st, mid), solve(nidx << 1 | 1, mid + 1, en));
     }
 
-    void update(int le, int ri, T val) {
-        this->le = le, this->ri = ri, this->val = val;
+    void update(int le, int ri, U val) {
+        this->le = le, this->ri = ri;
+        this->val = val;
         _update(1, st, en);
     }
 
