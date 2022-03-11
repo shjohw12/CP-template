@@ -65,7 +65,7 @@ struct Mcmf {
         pi ret = pi(0, 0);
         while (spfa()) {
             fill(all(work), 0);
-            for (int flow = dfs(src, inf); flow; flow = dfs(src, inf)) {
+            for (int flow = dfs(src, inf); flow > 0; flow = dfs(src, inf)) {
                 ret.first += flow;
                 ret.second += flow * dist[snk];
             }
