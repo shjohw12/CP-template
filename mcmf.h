@@ -27,7 +27,7 @@ struct Mcmf {
         for (int top = 0; top < sz(que); top++) {
             int cur = que[top];
             vis[cur] = 0;
-            for (auto &[nxt, cap, cost, _] : adj[cur]) {
+            for (auto [nxt, cap, cost, ridx] : adj[cur]) {
                 if (cap > 0 && dist[nxt] > dist[cur] + cost) {
                     dist[nxt] = dist[cur] + cost;
                     if (vis[nxt] == 0) {
@@ -47,15 +47,14 @@ struct Mcmf {
         vis[cur] = 1;
         for (int &i = work[cur]; i < sz(adj[cur]); i++) {
             auto &[nxt, cap, cost, ridx] = adj[cur][i];
-            if (vis[nxt] || cap == 0 || dist[nxt] != dist[cur] + cost) {
-                continue;
-            }
-            int &rcap = adj[nxt][ridx].cap;
-            int ret = dfs(nxt, min(flow, cap));
-            if (ret) {
-                cap -= ret;
-                rcap += ret;
-                return ret;
+            if (vis[nxt] == 0 && cap > 0 && dist[nxt] == dist[cur] + cost) {
+                int &rcap = adj[nxt][ridx].cap;
+                int ret = dfs(nxt, min(flow, cap));
+                if (ret) {
+                    cap -= ret;
+                    rcap += ret;
+                    return ret;
+                }
             }
         }
         return 0;

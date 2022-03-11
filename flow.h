@@ -28,12 +28,11 @@ struct Flow {
         lv[src] = 0;
         for (int top = 0; top < sz(que); top++) {
             int cur = que[top];
-            for (auto &[nxt, cap, ridx] : adj[cur]) {
-                if (lv[nxt] != -1 || cap == 0) {
-                    continue;
+            for (auto [nxt, cap, ridx] : adj[cur]) {
+                if (lv[nxt] == -1 && cap > 0) {
+                    lv[nxt] = lv[cur] + 1;
+                    que.push_back(nxt);
                 }
-                lv[nxt] = lv[cur] + 1;
-                que.push_back(nxt);
             }
         }
         return lv[snk] != -1;
@@ -45,15 +44,14 @@ struct Flow {
         }
         for (int &i = work[cur]; i < sz(adj[cur]); i++) {
             auto &[nxt, cap, ridx] = adj[cur][i];
-            if (lv[nxt] != lv[cur] + 1 || cap == 0) {
-                continue;
-            }
-            int &rcap = adj[nxt][ridx].cap;
-            int ret = dfs(nxt, min(flow, cap));
-            if (ret) {
-                cap -= ret;
-                rcap += ret;
-                return ret;
+            if (lv[nxt] == lv[cur] + 1 && cap > 0) {
+                int &rcap = adj[nxt][ridx].cap;
+                int ret = dfs(nxt, min(flow, cap));
+                if (ret) {
+                    cap -= ret;
+                    rcap += ret;
+                    return ret;
+                }
             }
         }
         return 0;
@@ -63,7 +61,7 @@ struct Flow {
         int ret = 0;
         while (bfs()) {
             fill(all(work), 0);
-            for (int flow = dfs(src, inf); flow; flow = dfs(src, inf)) {
+            for (int flow = dfs(src, inf); flow > 0; flow = dfs(src, inf)) {
                 ret += flow;
             }
         }
