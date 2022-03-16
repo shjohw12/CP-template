@@ -7,12 +7,12 @@ struct Bct {
     int n, num, bctnum; // dfs number, bct number is 1-based.
     vector<vector<pi>> adj;
     vector<Node> bct; // 단절점의 경우 그 자체가 노드, 아닌 경우 그 정점이 속한 BCC가 노드
-    vector<int> in, low, vtxinv, edgeinv, stk, cut;
+    vector<int> in, low, par, vtxinv, edgeinv, stk, cut;
     vector<pi> edge; // edge number is 0-based. first < second
 
-    Bct(int n) : n(n), num(0), bctnum(0), adj(n), bct(2 * n), in(n), low(n), vtxinv(n), edgeinv(n) {}
+    Bct(int n) : n(n), num(0), bctnum(0), adj(n), bct(2 * n), in(n), low(n), par(n, -1), vtxinv(n), edgeinv(n) {}
 
-    // edge number is 1-based.
+    // edge number is 0-based.
     void addedge(int a, int b) {
         if (a > b) {
             swap(a, b);
@@ -20,44 +20,43 @@ struct Bct {
         edge.emplace_back(a, b);
     }
 
-    void dfs(int cur, int p = -1) {
+    void dfs(int cur) {
         ++num;
         in[cur] = low[cur] = num;
         int chd = 0;
         bool flag = false;
         for (auto [nxt, edgenum] : adj[cur]) {
-            if (nxt == p || in[cur] < in[nxt]) {
-                continue;
-            }
-            stk.push_back(edgenum);
-            if (in[nxt] == 0) {
-                ++chd;
-                dfs(nxt, cur);
-                low[cur] = min(low[cur], low[nxt]);
-                // bcc
-                if (in[cur] <= low[nxt]) {
-                    flag = true;
-                    ++bctnum;
-                    while (1) {
-                        int top = stk.back();
-                        stk.pop_back();
-                        auto [u, v] = edge[top];
-                        vtxinv[u] = vtxinv[v] = edgeinv[top] = bctnum;
-                        if (top == edgenum) {
-                            break;
+            if (nxt != par[cur] && in[nxt] <= in[cur]) {
+                stk.push_back(edgenum);
+                if (in[nxt] == 0) {
+                    ++chd;
+                    dfs(nxt);
+                    low[cur] = min(low[cur], low[nxt]);
+                    // bcc
+                    if (in[cur] <= low[nxt]) {
+                        flag = true;
+                        ++bctnum;
+                        while (1) {
+                            int top = stk.back();
+                            stk.pop_back();
+                            auto [u, v] = edge[top];
+                            vtxinv[u] = vtxinv[v] = edgeinv[top] = bctnum;
+                            if (top == edgenum) {
+                                break;
+                            }
+                        }
+                        // bridge
+                        if (in[cur] < low[nxt]) {
+                            bct[bctnum].bridge = true;
                         }
                     }
-                    // bridge
-                    if (in[cur] < low[nxt]) {
-                        bct[bctnum].bridge = true;
-                    }
+                }
+                else {
+                    low[cur] = min(low[cur], in[nxt]);
                 }
             }
-            else {
-                low[cur] = min(low[cur], in[nxt]);
-            }
         }
-        if (p == -1) {
+        if (par[cur] == -1) {
             if (chd >= 2) {
                 cut.push_back(cur);
             }
