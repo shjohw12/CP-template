@@ -64,7 +64,7 @@ struct point {
         return ccw(P(), b - a, d - c);
     }
     friend int ang(P a, P b, P c) {
-        return sgn(dot(a - b, c - b));
+        return sgn((a - b).dot(c - b));
     }
     friend double lineDist(P p, P a, P b) {
         return ((a - p) * (b - p)) / getDist(a, b);
