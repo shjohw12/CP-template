@@ -1,16 +1,12 @@
-using namespace __gnu_pbds;
 using hsh = pair<signed, signed>;
 const ll mod = -1 ^ 1 << 31;
-const hsh H = hsh(127, 131);
+const hsh id = hsh(127, 131);
 
 struct myhash {
-    size_t operator()(const hsh &p) const {
+    size_t operator()(hsh p) const {
         return hash<ll>()(ll(p.first) << 32 | p.second);
     };
 };
-
-using myset = gp_hash_table<hsh, null_type, myhash>;
-using mymap = gp_hash_table<hsh, int, myhash>;
 
 inline signed MOD(ll x) {
     x = (x >> 31) + (x & mod);
@@ -18,12 +14,12 @@ inline signed MOD(ll x) {
 }
 
 hsh operator+(hsh l, hsh r) {
-    l = hsh(MOD(l.first + r.first), MOD(l.second + r.second));
+    l = hsh(MOD(ll(l.first) + r.first), MOD(ll(l.second) + r.second));
     return l;
 }
 
 void operator+=(hsh &l, hsh r) {
-    l = hsh(MOD(l.first + r.first), MOD(l.second + r.second));
+    l = hsh(MOD(ll(l.first) + r.first), MOD(ll(l.second) + r.second));
 }
 
 hsh operator-(hsh l, hsh r) {
@@ -49,6 +45,6 @@ hsh pw[MAXN];
 void init() {
     pw[0] = hsh(1, 1);
     for (int i = 1; i < MAXN; i++) {
-        pw[i] = pw[i - 1] * H;
+        pw[i] = pw[i - 1] * id;
     }
 }

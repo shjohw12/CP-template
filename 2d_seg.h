@@ -1,6 +1,6 @@
 struct Seg2 {
     int x_size, y_size, x_bias, y_bias;
-    int node[MAXN * 2][MAXN * 2];
+    int node[2 * MAXN][2 * MAXN];
 
     void init(int x1, int x2, int y1, int y2) {
         x_size = x2 - x1 + 1, x_bias = -x1;

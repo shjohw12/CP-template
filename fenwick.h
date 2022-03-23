@@ -1,7 +1,7 @@
 template<typename T>
 struct Bit {
     int node_size, bias;
-    T I;
+    T id;
     vector<T> node;
 
     T merge(T L, T R) {
@@ -10,18 +10,18 @@ struct Bit {
         // return max(L, R);
     }
 
-    void init(int st, int en, T I) {
+    void init(int st, int en, T id) {
         node_size = en - st + 1;
         bias = 1 - st;
-        this->I = I;
+        this->id = id;
         node.resize(node_size + 1);
-        fill(all(node), I);
+        fill(all(node), id);
     }
 
-    void init(int st, int en, auto origin, T I) {
+    void init(int st, int en, auto origin, T id) {
         node_size = en - st + 1;
         bias = 1 - st;
-        this->I = I;
+        this->id = id;
         node.resize(node_size + 1);
         for (int i = 1, j = st; j <= en; i++, j++) {
             node[i] = origin[j];
@@ -35,7 +35,7 @@ struct Bit {
     }
 
     T solve(int idx) {
-        T ret = I;
+        T ret = id;
         for (idx += bias; idx > 0; idx -= idx & -idx) {
             ret = merge(ret, node[idx]);
         }

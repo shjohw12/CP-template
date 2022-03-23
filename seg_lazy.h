@@ -1,8 +1,8 @@
 template<typename T, typename U>
 struct Seg {
     int st, en, le, ri, k;
-    T I;
-    U lazyI, val;
+    T id;
+    U lazy_id, val;
     vector<T> node;
     vector<U> lazy;
 
@@ -25,24 +25,24 @@ struct Seg {
         // node[nidx] = val;
     }
 
-    void init(int st, int en, T I, U lazyI) {
+    void init(int st, int en, T id, U lazy_id) {
         this->st = st, this->en = en;
-        this->I = I;
-        this->lazyI = lazyI;
-        node.resize((en - st + 1) * 4);
-        fill(all(node), I);
-        lazy.resize((en - st + 1) * 4);
-        fill(all(lazy), lazyI);
+        this->id = id;
+        this->lazy_id = lazy_id;
+        node.resize(4 * (en - st + 1));
+        fill(all(node), id);
+        lazy.resize(4 * (en - st + 1));
+        fill(all(lazy), lazy_id);
     }
 
-    void init(int st, int en, auto origin, T I, U lazyI) {
+    void init(int st, int en, auto origin, T id, U lazy_id) {
         this->st = st, this->en = en;
-        this->I = I;
-        this->lazyI = lazyI;
-        node.resize((en - st + 1) * 4);
+        this->id = id;
+        this->lazy_id = lazy_id;
+        node.resize(4 * (en - st + 1));
         _init(1, st, en, origin);
-        lazy.resize((en - st + 1) * 4);
-        fill(all(lazy), lazyI);
+        lazy.resize(4 * (en - st + 1));
+        fill(all(lazy), lazy_id);
     }
 
     void _init(int nidx, int st, int en, auto origin) {
@@ -57,14 +57,14 @@ struct Seg {
     }
 
     void prop(int nidx, int st, int en) {
-        if (lazy[nidx] == lazyI) {
+        if (lazy[nidx] == lazy_id) {
             return;
         }
         to_node(nidx, st, en, lazy[nidx]);
         if (st != en) {
             to_lazy(nidx, st, en, lazy[nidx]);
         }
-        lazy[nidx] = lazyI;
+        lazy[nidx] = lazy_id;
     }
 
     T solve(int le, int ri) {
@@ -75,7 +75,7 @@ struct Seg {
     T solve(int nidx, int st, int en) {
         prop(nidx, st, en);
         if (st > ri || en < le || le > ri) {
-            return I;
+            return id;
         }
         if (le <= st && en <= ri) {
             return node[nidx];

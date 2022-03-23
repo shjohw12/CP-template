@@ -1,7 +1,7 @@
 template<typename T>
 struct Seg {
     int st, en, le, ri, idx, k;
-    T I, val;
+    T id, val;
     vector<T> node;
 
     T merge(T L, T R) {
@@ -10,17 +10,17 @@ struct Seg {
         // return max(L, R);
     }
 
-    void init(int st, int en, T I) {
+    void init(int st, int en, T id) {
         this->st = st, this->en = en;
-        this->I = I;
-        node.resize((en - st + 1) * 4);
-        fill(all(node), I);
+        this->id = id;
+        node.resize(4 * (en - st + 1));
+        fill(all(node), id);
     }
 
-    void init(int st, int en, auto origin, T I) {
+    void init(int st, int en, auto origin, T id) {
         this->st = st, this->en = en;
-        this->I = I;
-        node.resize((en - st + 1) * 4);
+        this->id = id;
+        node.resize(4 * (en - st + 1));
         init(1, st, en, origin);
     }
 
@@ -42,7 +42,7 @@ struct Seg {
 
     T solve(int nidx, int st, int en) {
         if (st > ri || en < le || le > ri) {
-            return I;
+            return id;
         }
         if (le <= st && en <= ri) {
             return node[nidx];
