@@ -26,13 +26,13 @@ struct Seg {
 
     void init(int nidx, int st, int en, auto origin) {
         if (st == en) {
-            node[idx] = origin[st];
+            node[nidx] = origin[st];
             return;
         }
         int mid = (st + en) >> 1;
         init(nidx << 1, st, mid, origin);
         init(nidx << 1 | 1, mid + 1, en, origin);
-        node[idx] = merge(node[idx << 1], node[idx << 1 | 1]);
+        node[nidx] = merge(node[nidx << 1], node[nidx << 1 | 1]);
     }
 
     T solve(int le, int ri) {
@@ -58,8 +58,8 @@ struct Seg {
 
     void update(int nidx, int st, int en) {
         if (st == en) {
-            node[idx] = val;
-            // node[idx] = merge(node[idx], val);
+            node[nidx] = val;
+            // node[nidx] = merge(node[nidx], val);
             return;
         }
         int mid = (st + en) >> 1;
@@ -69,7 +69,7 @@ struct Seg {
         else {
             update(nidx << 1 | 1, mid + 1, en);
         }
-        node[idx] = merge(node[idx << 1], node[idx << 1 | 1]);
+        node[nidx] = merge(node[nidx << 1], node[nidx << 1 | 1]);
     }
 
     // int find_kth(int k) {

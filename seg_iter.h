@@ -26,7 +26,7 @@ struct Seg {
         for (int i = node_size, j = st; j <= en; i++, j++) {
             node[i] = origin[j];
         }
-        for (int i = node_size - 1; i; i--) {
+        for (int i = node_size - 1; i > 0; i--) {
             node[i] = merge(node[i << 1], node[i << 1 | 1]);
         }
     }
@@ -50,7 +50,7 @@ struct Seg {
         idx += node_size + bias;
         node[idx] = val;
         // node[idx] = merge(node[idx], val);
-        for (idx >>= 1; idx; idx >>= 1) {
+        for (idx >>= 1; idx > 0; idx >>= 1) {
             node[idx] = merge(node[idx << 1], node[idx << 1 | 1]);
         }
     }

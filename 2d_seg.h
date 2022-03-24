@@ -54,13 +54,13 @@ struct Seg2 {
         y += y_size + y_bias;
         node[x][y] = val;
         // node[x][y] += val;
-        for (int j = y >> 1; j; j >>= 1) {
+        for (int j = y >> 1; j > 0; j >>= 1) {
             node[x][j] = node[x][j << 1] + node[x][j << 1 | 1];
             // node[x][j] = min(node[x][j << 1], node[x][j << 1 | 1]);
             // node[x][j] = max(node[x][j << 1], node[x][j << 1 | 1]);
         }
-        for (x >>= 1; x; x >>= 1) {
-            for (int j = y; j; j >>= 1) {
+        for (x >>= 1; x > 0; x >>= 1) {
+            for (int j = y; j > 0; j >>= 1) {
                 node[x][j] = node[x << 1][j] + node[x << 1 | 1][j];
                 // node[x][j] = min(node[x][j << 1], node[x][j << 1 | 1]);
                 // node[x][j] = max(node[x][j << 1], node[x][j << 1 | 1]);
