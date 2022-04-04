@@ -17,14 +17,31 @@ const int minf = 0xc0c0c0c0c0c0c0c0;
 ostream &operator<<(ostream &os, pair<auto, auto> p) {
     return os << '(' << p.first << ' ' << p.second << ')';
 }
-ostream &operator<<(ostream &os, tuple<auto, auto, auto> t) {
-    return os << '(' << get<0>(t) << ' ' << get<1>(t) << ' ' << get<2>(t) << ')';
+template<typename T, size_t N> struct tuplePrinter {
+    static ostream &print(ostream &os, T t) { return tuplePrinter<T, N - 1>::print(os, t) << ' ' << get<N - 1>(t); }
+};
+template<typename T> struct tuplePrinter<T, 1> {
+    static ostream &print(ostream &os, T t) { return os << get<0>(t); }
+};
+template<typename... args> ostream &print_tuple(ostream &os, tuple<args...> t) {
+    return tuplePrinter<decltype(t), sizeof...(args)>::print(os << "(", t) << ")";
 }
-ostream &operator<<(ostream &os, tuple<auto, auto, auto, auto> t) {
-    return os << '(' << get<0>(t) << ' ' << get<1>(t) << ' ' << get<2>(t) << ' ' << get<3>(t) << ')';
+template<typename ...args> ostream &operator<<(ostream &os, const tuple<args...> t) {
+    return print_tuple(os, t);
 }
-ostream &operator<<(ostream &os, tuple<auto, auto, auto, auto, auto> t) {
-    return os << '(' << get<0>(t) << ' ' << get<1>(t) << ' ' << get<2>(t) << ' ' << get<3>(t) << ' ' << get<4>(t) << ')';
+ostream &operator<<(ostream &os, priority_queue<auto, auto, auto> v) {
+    bool flag = false;
+    os << '[';
+    while (sz(v)) {
+        if (flag) {
+            os << ' ';
+        }
+        flag = true;
+        os << v.top();
+        v.pop();
+    }
+    os << ']';
+    return os;
 }
 template<typename C, typename T = typename enable_if<!is_same<C, string>::value, typename C::value_type>::type>
 ostream &operator<<(ostream &os, C container) {
