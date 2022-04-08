@@ -29,9 +29,11 @@ struct Seg {
         this->st = st, this->en = en;
         this->id = id;
         this->lazy_id = lazy_id;
-        node.resize(4 * (en - st + 1));
+        int n = en - st + 1;
+        n = 1 << (1 + __lg(n) + !!(n & (n - 1)));
+        node.resize(n);
         fill(all(node), id);
-        lazy.resize(4 * (en - st + 1));
+        lazy.resize(n);
         fill(all(lazy), lazy_id);
     }
 
@@ -39,9 +41,11 @@ struct Seg {
         this->st = st, this->en = en;
         this->id = id;
         this->lazy_id = lazy_id;
-        node.resize(4 * (en - st + 1));
+        int n = en - st + 1;
+        n = 1 << (1 + __lg(n) + !!(n & (n - 1)));
+        node.resize(n);
         _init(1, st, en, origin);
-        lazy.resize(4 * (en - st + 1));
+        lazy.resize(n);
         fill(all(lazy), lazy_id);
     }
 

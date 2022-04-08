@@ -35,8 +35,7 @@ void fft(vector<cpx> &v, bool inv) {
 vector<int> operator*(vector<int> &a, vector<int> &b) {
     vector<cpx> fa(all(a)), fb(all(b));
     int n = max(sz(a), sz(b));
-    // n = 1 << (1 + __lg(n) + !!(n & (n - 1)));
-    n = 1 << (2 + __lg(n));
+    n = 1 << (1 + __lg(n) + !!(n & (n - 1)));
     fa.resize(n); fft(fa, false);
     fb.resize(n); fft(fb, false);
     for (int i = 0; i < n; i++) {

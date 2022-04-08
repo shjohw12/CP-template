@@ -12,7 +12,7 @@ struct Trie {
         // return c - '0';
     }
 
-    void add(string &s) {
+    void add(string s) {
         int cur = 0;
         for (auto i : s) {
             int nxt = c2i(i);
@@ -25,7 +25,7 @@ struct Trie {
         output[cur] = true;
     }
 
-    int find(string &s) {
+    int find(string s) {
         int cur = 0;
         for (auto i : s) {
             int nxt = c2i(i);

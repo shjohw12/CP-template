@@ -13,14 +13,18 @@ struct Seg {
     void init(int st, int en, T id) {
         this->st = st, this->en = en;
         this->id = id;
-        node.resize(4 * (en - st + 1));
+        int n = en - st + 1;
+        n = 1 << (1 + __lg(n) + !!(n & (n - 1)));
+        node.resize(n);
         fill(all(node), id);
     }
 
     void init(int st, int en, auto origin, T id) {
         this->st = st, this->en = en;
         this->id = id;
-        node.resize(4 * (en - st + 1));
+        int n = en - st + 1;
+        n = 1 << (1 + __lg(n) + !!(n & (n - 1)));
+        node.resize(n);
         _init(1, st, en, origin);
     }
 
