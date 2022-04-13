@@ -1,6 +1,6 @@
 int fail[MAXN];
 
-void init(string &t) {
+void init(string t) {
     for (int i = 1, j = 0; i < sz(t); i++) {
         while (j && t[i] != t[j]) {
             j = fail[j - 1];
@@ -11,7 +11,7 @@ void init(string &t) {
     }
 }
 
-void kmp(string &s, string &t) {
+void kmp(string s, string t) {
     for (int i = 0, j = 0; i < sz(s); i++) {
         while (j && s[i] != t[j]) {
             j = fail[j - 1];

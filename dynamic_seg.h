@@ -1,7 +1,7 @@
 struct Seg {
     int st, en, size, le, ri, idx, val, k;
     int node[MAXN];
-    pi chd[MAXN];
+    int chd[MAXN][2];
 
     void init(int st, int en) {
         this->st = st, this->en = en;
@@ -21,19 +21,19 @@ struct Seg {
         }
         int mid = (st + en) >> 1;
         if (idx <= mid) {
-            if (chd[nidx].first == 0) {
-                chd[nidx].first = size++;
+            if (chd[nidx][0] == 0) {
+                chd[nidx][0] = size++;
             }
-            update(chd[nidx].first, st, mid);
+            update(chd[nidx][0], st, mid);
         }
         else {
-            if (chd[nidx].second == 0) {
-                chd[nidx].second = size++;
+            if (chd[nidx][1] == 0) {
+                chd[nidx][1] = size++;
             }
-            update(chd[nidx].second, mid + 1, en);
+            update(chd[nidx][1], mid + 1, en);
         }
-        int lidx = chd[nidx].first;
-        int ridx = chd[nidx].second;
+        int lidx = chd[nidx][0];
+        int ridx = chd[nidx][1];
         node[nidx] = (lidx ? node[lidx] : 0) + (ridx ? node[ridx] : 0);
     }
 
@@ -50,8 +50,8 @@ struct Seg {
             return node[nidx];
         }
         int mid = (st + en) >> 1;
-        int lidx = chd[nidx].first;
-        int ridx = chd[nidx].second;
+        int lidx = chd[nidx][0];
+        int ridx = chd[nidx][1];
         return (lidx ? solve(lidx, st, mid) : 0) + (ridx ? solve(ridx, mid + 1, en) : 0);
     }
 
@@ -65,11 +65,11 @@ struct Seg {
             return st;
         }
         int mid = (st + en) >> 1;
-        int lidx = chd[nidx].first;
+        int lidx = chd[nidx][0];
         if (lidx && node[lidx] >= k) {
             return find_kth(lidx, st, mid);
         }
         k -= lidx ? node[lidx] : 0;
-        return find_kth(chd[nidx].second, mid + 1, en);
+        return find_kth(chd[nidx][1], mid + 1, en);
     }
 } seg;

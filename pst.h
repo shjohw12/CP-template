@@ -3,7 +3,7 @@ struct Pst {
     // size = the number of nodes
     int st, en, N, size, le, ri, idx, val;
     int node[20 * MAXN];
-    pi chd[20 * MAXN];
+    int chd[20 * MAXN][2];
     int root[MAXN];
 
     void init(int st, int en) {
@@ -19,8 +19,8 @@ struct Pst {
             return;
         }
         int mid = (st + en) >> 1;
-        init(chd[nidx].first = size++, st, mid);
-        init(chd[nidx].second = size++, mid + 1, en);
+        init(chd[nidx][0] = size++, st, mid);
+        init(chd[nidx][1] = size++, mid + 1, en);
     }
 
     // copy k-th tree to make new tree
@@ -28,7 +28,8 @@ struct Pst {
         ++N;
         root[N] = size;
         node[size] = node[root[k]];
-        chd[size] = chd[root[k]];
+        chd[size][0] = chd[root[k]][0];
+        chd[size][1] = chd[root[k]][1];
         this->idx = idx, this->val = val;
         update(size++, st, en);
     }
@@ -41,20 +42,22 @@ struct Pst {
         }
         int mid = (st + en) >> 1;
         if (idx <= mid) {
-            int lidx = chd[nidx].first;
-            chd[nidx].first = size;
+            int lidx = chd[nidx][0];
+            chd[nidx][0] = size;
             node[size] = node[lidx];
-            chd[size] = chd[lidx];
+            chd[size][0] = chd[lidx][0];
+            chd[size][1] = chd[lidx][1];
             update(size++, st, mid);
         }
         else {
-            int ridx = chd[nidx].second;
-            chd[nidx].second = size;
+            int ridx = chd[nidx][1];
+            chd[nidx][1] = size;
             node[size] = node[ridx];
-            chd[size] = chd[ridx];
+            chd[size][0] = chd[ridx][0];
+            chd[size][1] = chd[ridx][1];
             update(size++, mid + 1, en);
         }
-        node[nidx] = node[chd[nidx].first] + node[chd[nidx].second];
+        node[nidx] = node[chd[nidx][0]] + node[chd[nidx][1]];
     }
 
     // k-th tree query
@@ -71,7 +74,7 @@ struct Pst {
             return node[nidx];
         }
         int mid = (st + en) >> 1;
-        return _solve(chd[nidx].first, st, mid) + _solve(chd[nidx].second, mid + 1, en);
+        return _solve(chd[nidx][0], st, mid) + _solve(chd[nidx][1], mid + 1, en);
     }
 
     // remove k trees most recently added

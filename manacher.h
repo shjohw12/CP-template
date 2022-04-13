@@ -1,6 +1,6 @@
 int ma[MAXN]; // ma[i] = s[i-k .. i+k]가 palindrome인 최대 k
 
-void init(string &s) {
+void init(string s) {
     int n = sz(s);
     for (int i = 1, r = 0, p = 0; i < n; i++) {
         if (i <= r) {
