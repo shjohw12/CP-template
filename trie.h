@@ -13,28 +13,28 @@ struct Trie {
     }
 
     void add(string s) {
-        int cur = 0;
-        for (auto i : s) {
-            int nxt = c2i(i);
-            if (chd[cur][nxt] == 0) {
+        int nidx = 0;
+        for (auto x : s) {
+            int nxt = c2i(x);
+            if (chd[nidx][nxt] == 0) {
                 output[size] = false;
-                chd[cur][nxt] = size++;
+                chd[nidx][nxt] = size++;
             }
-            cur = chd[cur][nxt];
+            nidx = chd[nidx][nxt];
         }
-        output[cur] = true;
+        output[nidx] = true;
     }
 
     int find(string s) {
-        int cur = 0;
-        for (auto i : s) {
-            int nxt = c2i(i);
-            if (chd[cur][nxt] == 0) {
-                return -1;
+        int nidx = 0;
+        for (auto x : s) {
+            int nxt = c2i(x);
+            if (chd[nidx][nxt] == 0) {
+                return 0;
             }
-            cur = chd[cur][nxt];
+            nidx = chd[nidx][nxt];
         }
-        return output[cur] ? cur : -1;
+        return output[nidx] ? nidx : 0;
     }
 
     void clear() {

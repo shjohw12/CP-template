@@ -75,25 +75,39 @@ void debug_out(Head H, Tail... T) {
 
 const char dgt[] = "00010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899";
 const int BUF_SZ = 1 << 20;
+const char c15 = char(15), c16 = char(16);
 char readbuf[BUF_SZ], writebuf[BUF_SZ];
 char *INPUT = readbuf, *OUTPUT = writebuf;
 
 // mmap
-inline void get(int &n) {
+inline void get(signed &n) {
     n = 0;
     bool flag = false;
     if (*INPUT == '-') {
         flag = true;
         ++INPUT;
     }
-    for (char i = *INPUT++; i & 16; n = (n << 1) + (n << 3) + (i & 15), i = *INPUT++);
+    for (char i = *INPUT++; i & c16; n = (n << 1) + (n << 3) + (i & c15), i = *INPUT++);
+    if (flag) {
+        n = -n;
+    }
+}
+
+inline void get(ll &n) {
+    n = 0;
+    bool flag = false;
+    if (*INPUT == '-') {
+        flag = true;
+        ++INPUT;
+    }
+    for (char i = *INPUT++; i & c16; n = (n << 1) + (n << 3) + (i & c15), i = *INPUT++);
     if (flag) {
         n = -n;
     }
 }
 
 // // read
-// inline void get(int &n) {
+// inline void get(signed &n) {
 //     n = 0;
 //     bool flag = false;
 //     if (INPUT == readbuf + BUF_SZ) {
@@ -106,7 +120,30 @@ inline void get(int &n) {
 //     if (INPUT == readbuf + BUF_SZ) {
 //         read(0, INPUT = readbuf, BUF_SZ);
 //     }
-//     for (char i = *INPUT++; i & 16; n = (n << 1) + (n << 3) + (i & 15), i = *INPUT++) {
+//     for (char i = *INPUT++; i & c16; n = (n << 1) + (n << 3) + (i & c15), i = *INPUT++) {
+//         if (INPUT == readbuf + BUF_SZ) {
+//             read(0, INPUT = readbuf, BUF_SZ);
+//         }
+//     }
+//     if (flag) {
+//         n = -n;
+//     }
+// }
+
+// inline void get(ll &n) {
+//     n = 0;
+//     bool flag = false;
+//     if (INPUT == readbuf + BUF_SZ) {
+//         read(0, INPUT = readbuf, BUF_SZ);
+//     }
+//     if (*INPUT == '-') {
+//         flag = true;
+//         ++INPUT;
+//     }
+//     if (INPUT == readbuf + BUF_SZ) {
+//         read(0, INPUT = readbuf, BUF_SZ);
+//     }
+//     for (char i = *INPUT++; i & c16; n = (n << 1) + (n << 3) + (i & c15), i = *INPUT++) {
 //         if (INPUT == readbuf + BUF_SZ) {
 //             read(0, INPUT = readbuf, BUF_SZ);
 //         }
@@ -117,7 +154,7 @@ inline void get(int &n) {
 // }
 
 // // fread
-// inline void get(int &n) {
+// inline void get(signed &n) {
 //     n = 0;
 //     bool flag = false;
 //     if (INPUT == readbuf + BUF_SZ) {
@@ -130,7 +167,30 @@ inline void get(int &n) {
 //     if (INPUT == readbuf + BUF_SZ) {
 //         fread(readbuf, sizeof(char), BUF_SZ, stdin);
 //     }
-//     for (char i = *INPUT++; i & 16; n = (n << 1) + (n << 3) + (i & 15), i = *INPUT++) {
+//     for (char i = *INPUT++; i & c16; n = (n << 1) + (n << 3) + (i & c15), i = *INPUT++) {
+//         if (INPUT == readbuf + BUF_SZ) {
+//             fread(readbuf, sizeof(char), BUF_SZ, stdin);
+//         }
+//     }
+//     if (flag) {
+//         n = -n;
+//     }
+// }
+
+// inline void get(ll &n) {
+//     n = 0;
+//     bool flag = false;
+//     if (INPUT == readbuf + BUF_SZ) {
+//         fread(readbuf, sizeof(char), BUF_SZ, stdin);
+//     }
+//     if (*INPUT == '-') {
+//         flag = true;
+//         ++INPUT;
+//     }
+//     if (INPUT == readbuf + BUF_SZ) {
+//         fread(readbuf, sizeof(char), BUF_SZ, stdin);
+//     }
+//     for (char i = *INPUT++; i & c16; n = (n << 1) + (n << 3) + (i & c15), i = *INPUT++) {
 //         if (INPUT == readbuf + BUF_SZ) {
 //             fread(readbuf, sizeof(char), BUF_SZ, stdin);
 //         }
@@ -167,7 +227,7 @@ inline void put(int n) {
     }
     else if (n > 0) {
         *OUTPUT++ = n | 48;
-    }
+}
     reverse(tmp, OUTPUT);
 }
 

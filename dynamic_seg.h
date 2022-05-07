@@ -1,7 +1,7 @@
 struct Seg {
     int st, en, size, le, ri, idx, val, k;
-    int node[MAXN];
-    int chd[MAXN][2];
+    int node[20 * MAXN];
+    int chd[20 * MAXN][2];
 
     void init(int st, int en) {
         this->st = st, this->en = en;
@@ -55,21 +55,21 @@ struct Seg {
         return (lidx ? solve(lidx, st, mid) : 0) + (ridx ? solve(ridx, mid + 1, en) : 0);
     }
 
-    int find_kth(int k) {
-        this->k = k;
-        return find_kth(0, st, en);
-    }
+    // int find_kth(int k) {
+    //     this->k = k;
+    //     return find_kth(0, st, en);
+    // }
 
-    int find_kth(int nidx, int st, int en) {
-        if (st == en) {
-            return st;
-        }
-        int mid = (st + en) >> 1;
-        int lidx = chd[nidx][0];
-        if (lidx && node[lidx] >= k) {
-            return find_kth(lidx, st, mid);
-        }
-        k -= lidx ? node[lidx] : 0;
-        return find_kth(chd[nidx][1], mid + 1, en);
-    }
+    // int find_kth(int nidx, int st, int en) {
+    //     if (st == en) {
+    //         return st;
+    //     }
+    //     int mid = (st + en) >> 1;
+    //     int lidx = chd[nidx][0];
+    //     if (lidx && node[lidx] >= k) {
+    //         return find_kth(lidx, st, mid);
+    //     }
+    //     k -= lidx ? node[lidx] : 0;
+    //     return find_kth(chd[nidx][1], mid + 1, en);
+    // }
 } seg;

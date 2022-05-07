@@ -9,8 +9,8 @@ struct Line {
 struct Lichao {
     int st, en, size, x;
     Line val;
-    Line node[MAXN];
-    int chd[MAXN][2];
+    Line node[20 * MAXN];
+    int chd[20 * MAXN][2];
 
     void init(int st, int en) {
         this->st = st, this->en = en;
