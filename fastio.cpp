@@ -74,8 +74,8 @@ void debug_out(Head H, Tail... T) {
 #endif
 
 const char dgt[] = "00010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899";
-const int BUF_SZ = 1 << 20;
 const char c15 = char(15), c16 = char(16);
+const int BUF_SZ = 1 << 20;
 char readbuf[BUF_SZ], writebuf[BUF_SZ];
 char *INPUT = readbuf, *OUTPUT = writebuf;
 
@@ -227,7 +227,7 @@ inline void put(int n) {
     }
     else if (n > 0) {
         *OUTPUT++ = n | 48;
-}
+    }
     reverse(tmp, OUTPUT);
 }
 
